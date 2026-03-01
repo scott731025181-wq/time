@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#5B9BD5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="静谧时光" />
+  <title>静谧时光 - Minimal Focus</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <header class="app-header">
+      <h1 class="page-title" id="pageTitle">今天</h1>
+      <button type="button" class="icon-btn" id="headerAction" aria-label="设置" style="display:none;"></button>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <!-- 今日首页 -->
+      <section id="view-today" class="view active">
+        <div class="greeting">
+          <p class="greeting-text" id="greetingText">下午好</p>
+          <p class="greeting-sub" id="todayTaskCount">今天有 0 个任务待完成</p>
+        </div>
+        <div class="today-tasks">
+          <h2 class="section-title">今日任务</h2>
+          <ul class="task-list" id="todayTaskList"></ul>
+        </div>
+        <div class="habits-section">
+          <h2 class="section-title">今日习惯 <span class="habit-summary" id="habitSummary">全部完成</span></h2>
+          <ul class="habit-cards" id="todayHabitList"></ul>
+        </div>
+        <div class="quick-actions">
+          <button type="button" class="quick-btn" id="btnStartFocus">
+            <span class="quick-icon">⏱</span>
+            <span>开始专注</span>
+          </button>
+          <button type="button" class="quick-btn" id="btnQuickNote">
+            <span class="quick-icon">✎</span>
+            <span>快速记录</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 任务页 -->
+      <section id="view-tasks" class="view">
+        <div class="segment-bar">
+          <button type="button" class="segment active" data-segment="inbox">收件箱</button>
+          <button type="button" class="segment" data-segment="today">今日</button>
+          <button type="button" class="segment" data-segment="planned">计划</button>
+          <button type="button" class="segment" data-segment="done">已完成</button>
+        </div>
+        <ul class="task-list" id="allTaskList"></ul>
+        <button type="button" class="fab" id="fabAddTask" aria-label="添加任务">+</button>
+      </section>
+
+      <!-- 专注页 -->
+      <section id="view-focus" class="view">
+        <div class="focus-timer-wrap">
+          <div class="focus-ring" id="focusRing">
+            <div class="focus-time" id="focusTime">25:00</div>
+            <p class="focus-label" id="focusLabel">专注中</p>
+          </div>
+        </div>
+        <p class="focus-task-name" id="focusTaskName">选择任务（可选）</p>
+        <div class="focus-controls">
+          <button type="button" class="btn btn-primary" id="btnFocusStart">开始</button>
+          <button type="button" class="btn btn-secondary" id="btnFocusReset">重置</button>
+        </div>
+        <div class="focus-today-stats" id="focusTodayStats">
+          <span>今日 0 个番茄钟</span>
+          <span>0 分钟</span>
+        </div>
+      </section>
+
+      <!-- 记录页 -->
+      <section id="view-notes" class="view">
+        <ul class="note-timeline" id="noteTimeline"></ul>
+        <button type="button" class="fab" id="fabAddNote" aria-label="添加记录">+</button>
+      </section>
+
+      <!-- 习惯页 -->
+      <section id="view-habits" class="view">
+        <ul class="habit-list" id="habitList"></ul>
+        <button type="button" class="fab" id="fabAddHabit" aria-label="添加习惯">+</button>
+      </section>
+
+      <!-- 我的页 -->
+      <section id="view-profile" class="view">
+        <div class="stats-cards">
+          <div class="stat-card">
+            <span class="stat-value" id="statTasksDone">0</span>
+            <span class="stat-label">已完成任务</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statFocusMins">0</span>
+            <span class="stat-label">专注分钟</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statHabitStreak">0</span>
+            <span class="stat-label">习惯连续天数</span>
+          </div>
+        </div>
+        <div class="settings-list">
+          <div class="setting-item">
+            <span>外观</span>
+            <select id="settingTheme">
+              <option value="light">浅色</option>
+              <option value="dark">深色</option>
+              <option value="system">跟随系统</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <span>强调色</span>
+            <select id="settingAccent">
+              <option value="blue">静谧蓝</option>
+              <option value="mint">薄荷绿</option>
+              <option value="lavender">薰衣紫</option>
+              <option value="coral">珊瑚粉</option>
+              <option value="orange">暖阳橙</option>
+            </select>
+          </div>
+        </div>
+        <p class="app-about">静谧时光 · 极简专注</p>
+      </section>
+    </main>
+
+    <!-- 底部 Tab -->
+    <nav class="tab-bar">
+      <button type="button" class="tab-item active" data-tab="today" aria-label="今日">
+        <span class="tab-icon">⌂</span>
+        <span class="tab-label">今日</span>
+      </button>
+      <button type="button" class="tab-item" data-tab="tasks" aria-label="任务">
+        <span class="tab-icon">✓</span>
+        <span class="tab-label">任务</span>
+      </button>
+      <button type="button" class="tab-item" data-tab="notes" aria-label="记录">
+        <span class="tab-icon">📖</span>
+        <span class="tab-label">记录</span>
+      </button>
+      <button type="button" class="tab-item" data-tab="habits" aria-label="习惯">
+        <span class="tab-icon">🔥</span>
+        <span class="tab-label">习惯</span>
+      </button>
+      <button type="button" class="tab-item" data-tab="profile" aria-label="我的">
+        <span class="tab-icon">👤</span>
+        <span class="tab-label">我的</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- 弹窗：新建/编辑任务 -->
+  <div class="modal" id="modalTask">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="text-btn" id="taskModalCancel">取消</button>
+        <span class="modal-title">新建任务</span>
+        <button type="button" class="text-btn primary" id="taskModalSave">完成</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="input" id="taskTitle" placeholder="输入任务名称..." maxlength="200" />
+        <div class="task-options">
+          <label><span>日期</span><input type="date" id="taskDueDate" /></label>
+          <label><span>分类</span>
+            <select id="taskCategory">
+              <option value="">无</option>
+              <option value="工作">工作</option>
+              <option value="学习">学习</option>
+              <option value="生活">生活</option>
+            </select>
+          </label>
+          <label><span>优先级</span>
+            <select id="taskPriority">
+              <option value="0">无</option>
+              <option value="1">低</option>
+              <option value="2">中</option>
+              <option value="3">高</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗：快速记录 -->
+  <div class="modal" id="modalNote">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="text-btn" id="noteModalCancel">取消</button>
+        <span class="modal-title">快速记录</span>
+        <button type="button" class="text-btn primary" id="noteModalSave">保存</button>
+      </div>
+      <div class="modal-body">
+        <textarea class="input textarea" id="noteContent" placeholder="记录想法..." rows="4"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗：新建习惯 -->
+  <div class="modal" id="modalHabit">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="text-btn" id="habitModalCancel">取消</button>
+        <span class="modal-title">新建习惯</span>
+        <button type="button" class="text-btn primary" id="habitModalSave">完成</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="input" id="habitName" placeholder="习惯名称，如：阅读" maxlength="20" />
+        <div class="habit-icons">
+          <label class="habit-icon-opt"><input type="radio" name="habitIcon" value="📖" checked /><span>📖</span></label>
+          <label class="habit-icon-opt"><input type="radio" name="habitIcon" value="🏃" /><span>🏃</span></label>
+          <label class="habit-icon-opt"><input type="radio" name="habitIcon" value="🧘" /><span>🧘</span></label>
+          <label class="habit-icon-opt"><input type="radio" name="habitIcon" value="💧" /><span>💧</span></label>
+          <label class="habit-icon-opt"><input type="radio" name="habitIcon" value="🌙" /><span>🌙</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

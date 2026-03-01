@@ -1,0 +1,10 @@
+{
+  "name": "静谧时光",
+  "short_name": "静谧时光",
+  "description": "极简待办 · 番茄计时 · 记录 · 习惯",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#5B9BD5",
+  "orientation": "portrait"
+}
